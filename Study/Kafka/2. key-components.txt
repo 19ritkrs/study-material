@@ -1,0 +1,45 @@
+** Key Componenets of Kafka:-
+_____________________________________
+*1   Broker:- Think of a broker as a big storage room for messages. It's like a place where messages are kept.
+     When you send a message, it goes to the broker, and when someone wants to read a message, they also go to the broker.
+   
+*2   Topic:-Imagine a topic as a labeled box. When you want to send a message, you put it in the box with the matching label.
+     This way, people who are interested in that topic can find the messages they want.   
+   
+*3   Partition:-A topic can have many parts, like different sections in a library for different types of books. 
+     Each section can hold a part of the messages. This helps us read and write messages faster and better.   
+   
+*4   Producer:-A producer is like a messenger. It takes your message and puts it in the right box (topic) in the storage room (broker).
+     It's like a delivery person for messages.  
+
+*5   Consumer:-A consumer is like a person who reads the messages from the storage room.  
+     They pick up the messages from the box (topic) they are interested in and read them, one by one.   
+   
+*7   Consumer Group:-Imagine a book club where people read books together. In a consumer group, people work together to read messages from a topic.
+     Each person reads from a different section (partition) of the library.   
+   
+*8   Offset:-An offset is like a bookmark. When you read a book, you use a bookmark to remember where you stopped.
+     Similarly, an offset helps you remember which message you read last, so you can continue reading from there.   
+   
+*9   Kafka Connect:-Think of Kafka Connect as a bridge that connects different systems. 
+     It helps messages move between Kafka and other places, like databases or files. 
+     It's like a translator that helps different systems talk to each other. 
+
+*10  Kafka Streams:-Kafka Streams is like a magic spell that lets you do things with messages as they flow by. 
+     It's a special tool that helps you process messages in real-time and create new messages based on what you see. 
+	 
+*11 Schema Registry:- A Schema Registry is like a rulebook for messages. It ensures that messages are written and read in the same way.
+    It's like a recipe that everyone follows to make sure messages make sense.	 
+	
+	
+** Important Commands:-
+_____________________________________
+** bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 --topic YourTopicName --create --partitions 1 --replication-factor 1  -->Create a Topic
+** bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic YourTopicName  --> Produce Messages
+** bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic YourTopicName --from-beginning   --->Consume Messages
+   
+    NOTE:- Remember to replace YourTopicName with the topic name you want to use.
+
+
+	
+	

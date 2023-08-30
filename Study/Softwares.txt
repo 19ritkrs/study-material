@@ -1,0 +1,19 @@
+** List Of Software:-
+_________________________
+
+** Java - 17
+** Docker Desktop and setup of account
+** Github set up
+** Mysql Db
+** Minikube
+** Kafka Installations and set up
+
+
+
+** Tools:-
+_________________________
+** STS
+** OffSet Explorer
+
+https://blog.devgenius.io/building-crud-rest-api-with-basic-validations-using-spring-boot-postgresql-jpa-repository-d8dc4478bf7b
+

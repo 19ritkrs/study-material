@@ -1,0 +1,70 @@
+** KAFKA:-
+____________________
+
+** Strat the zookeeper and Kafka server:-
+_________________________________________________
+
+*1 Above commands should hit in command prompt from the Kafka directory. (E.g:- C:\kafka)
+______________________________________________________________________________________________
+
+** zookeeper-server-start.bat config\zookeeper.properties --> For start the zookeeper server.
+** kafka-server-start.bat config\server.properties  --> Start the Kafka Server
+
+*2 While playing with KAFKA we have to do 5 things:-
+________________________________________________________
+        *1 Create topic 
+	*2 list out all topic names
+	*3 Describe topics
+	*4 Produce message
+	*5 consume message
+	
+	NOTE:- We will run all this command through command prompt. So,We need to open 2 command prompt.One for Producer and another for Consumer.
+    
+	
+*i Create topic:-
+___________________________________	
+	
+** .\bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 --create --topic NewTopicName --partitions 3 --replication-factor 1  --> Command to create the Kafka Topic.
+	
+	NOTE:- NewTopicName - We can give any Topic name based on our requirements.
+	
+*ii list out all topic names:-
+___________________________________	
+	
+** .\bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 --list    --->list out all topic names
+
+*iii Describe topics:-
+___________________________________	
+	
+**  bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 --describe --topic NewTopicName --> Command for Describe the topic.
+    NOTE:- NewTopicName - We can give any Topic name based on our requirements.
+
+*iv Produce message:-
+____________________________________	
+
+** bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic NewTopicName  --> Produce the message.
+   NOTE:- NewTopicName - We can give any Topic name based on our requirements.
+
+
+*5 consume message:-
+_____________________________________
+
+**  bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic NewTopicName --from-beginning  ---> Produce message
+    NOTE:- NewTopicName - We can give any Topic name based on our requirements.
+
+
+
+
+
+
+
+
+
+https://www.javainuse.com/spring/spring-boot-apache-kafka-hello-world
+
+
+
+ 
+ 
+	
+	

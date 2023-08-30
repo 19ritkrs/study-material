@@ -1,0 +1,13 @@
+** Docker-Kubernate-Jenkins Integration:-
+__________________________________________________
+** RoadMap:-
+_____________________
+** Add the Plugins of Kubernate Over Jenkins DashBoard
+
+
+** Add the Plugins of Kubernate Over Jenkins DashBoard:-
+___________________________________________________________________
+** Dashboard-->Manage Jenkins-->Plugins-->Availabele--> Search For(Kubernate )
+
+
+Downgrade the Jenkins plugins version - 3:30

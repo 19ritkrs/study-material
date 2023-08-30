@@ -1,0 +1,183 @@
+** Docker Jenkins Integration:-
+____________________________________________
+RoadMap:-
+_________________
+*1 Set up the Jenkins account.
+*2 Configure the Jenkins Pipeline.
+*3 Create Docker Image.
+*4 Push Docker image on Docker Hub
+
+
+
+*1 Set up the Jenkins account:-
+______________________________________
+
+** Download the jenkins.war file.
+** Now from downloaded jenkins.war file start the command prompt.
+** java -jar jenkins.war --> and hit this command.
+** localhost:8080 --> Now hit this command  from browser.
+   NOTE:- By Default Jenkins start on port 8080.
+** Now We are able to see Jenkins up.Now set up the account.
+   Problem:- If we will face any issue refer any youtube video 'Set up Jenkins through war file'.
+   
+   
+*2 Configure the Jenkins Pipeline:-
+____________________________________________
+** Once Jenkins set up done then follow the below steps from Jenkins Dashboard.
+
+** In First page choose below 3 steps:-
+** Click On Dashboard-->New Item-->Enter an item name(give any name here)--> Select as 'Pipeline'-->Ok.
+
+** In second page:-
+   i.   Description--> Give any Description here.
+   ii.  Github Project-->Project Url(Give the Github url but not repository).
+   iii. Build Triggers-->GitHub hook trigger for GITScm polling
+   iv.  Pipeline-->Definition-->Pipeline Script-->Script(Write Script here)-->Hello world(Choose Hello world from Drop down from left side of Script box).
+        NOTE:- After slecting as Hello World We will get Script format.Now i have to do 2 things inside script{}.
+            i.  Need to configure Git or Docker or Kubernates.That We can do only by using Generate Pipeline.Follow below 5th steps for generate pipeline.
+            ii  Write the command for run the Script.(E.g:-  bat 'mvn clean install')
+
+   v.   Click On Syntax Pipeline:-
+      **  We have to fill 5 things here:-
+_________________________________________________
+
+      i.   Pipeline Syntax-->Sample Step--->Checkout from version control
+      ii.  SCM-->git
+      iii. Repository URL---->Give here Repo of our project but not URL
+       iv. Branch---->give the branch whatever we used in github Repo.
+        v. Click on 'Generate Pipeline Script  -->We will get the Script.Copy this script and paste into script box inside script{}.
+       E.G:- checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/19ritkrs/jenkins-demo']])
+	  vi.  Write the command for run the Script inside script{}.(E.g:-  bat 'mvn clean install').For ref refer the below Script.
+	   
+** Script Format:-
+____________________________
+** Now refer the below script here and change based on our project requirement or github Repo or according to the branch:-
+
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+       maven 'Maven 3.9.4'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/19ritkrs/jenkins-demo']])
+                bat 'mvn clean install'
+            }
+        }
+    }
+}	   
+
+** Note:- After all this configuration click on Apply-->Save->Build Now.
+          If We will get any error then do R/D and fix the issue
+          And if Build 'Run Success' then we can go ahead with below procedure.
+
+
+*3 Create Docker Image:-
+_____________________________
+** Install  the Docker Plugin and Configure the Docker Plugin in jenkins Dashboard.For Ref do the google or ChatGpt
+
+** If we want to integrate Jenkins with Docker then We have to follow all the above steps of 1st and 2nd Step.
+** Only thing that we have to change into the Script.For that purpose We have to add 2 'stage' 
+** First stage for Creating Docker image.
+** One more important thing from now onwards one more script will be added inside steps{} script that is script{}.
+
+   NOTE:- Straight Forward add below stage script in Jenkins Script.Only need to change docker image name.
+           
+		    stage('Build docker image'){
+            steps{
+                script{
+                    bat 'docker build -t 19ritkrs/build-11 .'
+                }
+            }
+        }
+		
+		NOTE:- 19ritkrs - This is my username of my Docker image.
+		       build-11 - This is the name of my Docker image which we want to create.
+			   
+			   Note:- After adding this script try to Build the Jenkins job.If it successfully then we can go  ahead.
+			   
+			   
+*4 Push Docker image on Docker Hub:-
+_________________________________________________________
+
+** If we want to integrate Jenkins with Docker then We have to follow all the above steps of 1st Step.
+** Only thing that we have to change into  the Script.For that purpose cumpulsory We need to make the Pipeline Syntax.
+
+v.   Click On Syntax Pipeline:-
+      **  We have to fill 8 things here:-
+_________________________________________________
+	i.    Sample Step--->withCredentials:Bind credentials to variables.
+    ii.   Bindings-->add-->Secret text.
+    iii.  variable=dockerjenkinspwd (We can give any name).
+     iv.  add-->jenkins--Add credentials.
+	      NOTE:- If We already added the password then We can choose those password from 'credentials' drop down option.
+		         Then No need to follow the step v to vii.
+		   
+	  v.  Kind=secret text
+	 vi.  secret = Mathura@123 (Here i have to give the Password of Docker hub)
+    vii.  ID =  dockerhub-pwd--->Click On Add.(You can give any name here,not necessary username.)
+   viii.  Now,From the above Credentials Drop down select 'dockerhub-pwd' and click on 'Generate Pipeline Script'.Copy and paste 
+          inside pipeline script inside script{}
+          NOTE:- Here, 'dockerhub-pwd' is variable where we binded our Docker Hub password.
+	 ix.  Write the command for run the Script after script{} and inside steps{}.(E.g:-  bat 'docker push 19ritkrs/build-10').For ref refer the below Script.	  
+		  
+		  
+		  
+** Docker Image and Push on Hub Script Example for our future reference:-
+__________________________________________________________________________________
+
+NOTE:- This is the reference of Whole Script.
+
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+       maven 'Maven 3.9.4'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/19ritkrs/jenkins-demo-2']])
+                bat 'mvn clean install'
+            }
+        }
+         stage('Build docker image'){
+            steps{
+                script{
+                    bat 'docker build -t 19ritkrs/build-10 .'
+                }
+            }
+        }
+        stage('push image to Hub'){
+            steps{
+                script{
+                    
+                   withCredentials([string(credentialsId: 'dockerpwds', variable: 'dockerintegration')]) {
+   
+                    }
+                       bat 'docker push 19ritkrs/build-10'
+                }
+                    
+                }
+            }
+            
+        }
+    }
+
+		  
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+		

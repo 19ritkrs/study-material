@@ -1,0 +1,114 @@
+** Docker Images:-
+____________________________
+1. Create Dockerfile.
+2. Add FinalName tag in pom.xml file.
+3. Generate jar file in target folder.
+4. Create Docker images locally and run our app.
+5. PUSH local docker image to hub.docker.com
+6. Run our app by using hub.docker.com image
+7. Access our application in other System by using docker image and without having code:-
+
+NOTE:- While performing all the operations AppDocker app should be open.
+
+1. Create dockerFile:-
+_________________________________
+FROM openjdk:11
+EXPOSE 8080
+ADD target/rabitech.jar rabitech.jar
+ENTRYPOINT ["java","-jar","/rabitech.jar"]
+
+NOTE:- Keep this thing in application.properties file
+
+2. Add FinalName tag in pom.xml file:-
+___________________________________________________
+</plugins>
+<finalName>rabitech</finalName>
+</build>
+
+NOTE:- Keep this final name in after </plugins> tab and before </build>;
+
+3. Generate jar file in target folder:-
+____________________________________________
+** Right click on project and Run as Maven build or Maven Install.
+
+
+FIRST WAYS:
+
+4. Create Docker images locally and run our app:-
+__________________________________________________
+** Ctrl+Alt+T - Use this shortcut for open the terminal in Springboot.
+** docker images - Use this command to see all the images which already created.
+** docker build . -t rabitech.jar --> Use this command for create the images.
+** docker run -p 8080:8080 rabitech.jar  -->For starting the Docker containizaration.Now,Test the app.
+** http://localhost:8080/jenkins/api ---> Run the app in Postman by using this url.
+
+
+5. PUSH local docker image to hub.docker.com:-
+_________________________________________________
+
+NOTE:- Once Docker image got created locally and springboot project running fine with local image then we can push local image to docker container by         using below 2 commands:-   
+   
+   1.  docker tag kub.jar 19ritkrs/kub1  
+
+       NOTE:- kub.jar --> the images which we created locally.We can check by command-->docker images 
+              19ritkrs/kub1 --> 19ritkrs is my username and kub1 is the new name repo name which will be created hub.docker.com. after hitting above command
+
+   2.  docker push 19ritkrs/kub1
+       NOTE:- After running this command.We can browse the hub.docker.com page.We will see new repo is created with the name of kub1.
+
+NOTE:- 1. Once we Push the our Docker image on hub.docker.com repository.Then We can run our application by using image from hub.docker.com.
+       2. For that delete all the locally image by using --> docker rmi <-- command.
+
+ 
+2ND WAYS:-
+
+6. Run our app by using hub.docker.com image:-
+__________________________________________________
+
+NOTE:- Before following the below steps all the docker images should be deleted by using --> docker rmi <-- command.
+
+
+** docker run -p 8080:8080 19ritkrs/kub1
+
+   NOTE:- 19ritkrs - This is my username.
+          kub1 - This is the remote repo.  
+
+
+7. Access our application in other System by using docker image and without having code:-
+____________________________________________________________________________________________
+
+   NOTE:- Start the Docker Desktop App before running the below command.
+
+** If want to run our app in other system by using the Remote docker image then follow below steps:-
+   
+    i.   Start the DockerApp.
+    ii.  Login into hub.docker.com
+    iii. docker run -p 8080:8080 19ritkrs/kub1 - Hit this comaand for running.
+         
+         NOTE:- Change the port no according to the app and in place of 'kub1' give the remote repo name from hub.docker.com
+
+
+      
+
+
+
+
+
+
+
+
+STORY:- There are two of running our springBoot project through Docker images.
+1. By creating local image of our springBoot and Run.
+2. Push the local Docker image to Docker container and delete from locally and run it
+
+
+
+** docker container ls ---> To see the list of Docker container.
+** docker container stop ContainerID ----> To stop the running docker container.
+
+
+docker run -it --name rabitech_container rabitech:latest
+
+docker run -p 8080:8080 rabitech
+
+

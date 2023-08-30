@@ -1,0 +1,82 @@
+** Kubernates Deployment:-
+________________________________
+After creating the Docker image we have to follow this:-
+Steps:1 Run all the below commands on PowerShell.
+
+*1  Signup in hub.Docker.com
+*2  Then create a Repository with any name and CREATE.
+*3  docker login --> open the PowerShell and login with credentials.
+*4  cls --> clear the command prompt.
+*5  cd C:\Users\1234\Downloads\rabitech -->Go the project directory where Dockerfile file kept.
+*6  docker build -t rabitech .  --> For Build the docker images.(rabitec=Docker images name).
+*7  docker tag rabitech 19ritkrs/rabitech3 -->Push this image to Docker Hub.
+*8  docker push 19ritkrs/rabitech3 -->Push command.(rabitech3 is Repository in Docker hub).
+*9  docker rmi <IMAGE_NAME_OR_ID> -- This is deleting the docker image.(Optional).
+*10 ping 8080 -->To check is there any thing running on this Port.Run this in command prompt.
+*11 docker run -p 8080:8080 19ritkrs/rabitech3 --> For pull the image from docker hub.(19ritkrs/rabitech3=this is the repo on Docker hub).
+    NOTE:-After running above run command,If our application is up then we can go only ahead with below process.
+
+    KUBERNATE PROCESS:-
+    _____________________
+
+*12 https://console.cloud.google.com/welcome/new?project=prefab-bedrock-394320  --> Go on this.
+*13 Kubernate Engine-->Clusters-->Create-->Give the name of Cluster -->Click on Create.
+*14 Go to spring project and create a file with name of yaml extension.(E.g:- docker-k8s-demo.yaml)
+*15 We will create a file inside springboot application with any name.yaml(E.g:- kub1.yaml)
+
+    ******Yaml file structure is below******
+
+     
+     apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kub1-deployment
+  labels:
+  app: kub1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kub1
+  template:
+    metadata:
+      labels:
+        app: kub1
+    spec:
+      containers:
+        - name: kub1
+          image: 19ritkrs/kub1
+          ports:
+            - containerPort: 8080
+
+
+*16 Once the cluster got created then we will click on CONNECT-->RUN IN CLOUD SHELL.
+*17 Once We will click on RUN IN CLOUD SHELL,One terminal willbe open.And after open it will bring by default command.We have to press only ENTER.
+*18 After pressing ENTER,We will connect to the Cluster.
+*19 From the terminal menu bar,we have to click on 3 dots,that exits in right side.follow the below steps to upload our yaml file.
+*20 3 dots-->Upload-->file-->Choose the yaml file-->Upload.
+*21 ls --> To verify that our yaml file got uploaded.
+*22 kubectl apply -f kub1.yaml  -->For start the cluster.(kub1.yaml -- It is the file name which we created in springBoot project).
+*23 Now close the Kubernate cluster terminal.
+*25 Then Go to the workload from menubar,which is in right side.
+*26 It will current status  is ' Does not have minimum availability'.Then select our Deployment and click on REFRESH multiple times and wait until the green         signal of our deployment.
+*27 After status is OK.Click on our Deployment.
+*28 Then click on EXPOSE from right side corner.
+*29 Give Target Port =8081 and Service Type=Load Balancer and click on EXPOSE.After that it will take some time.
+*30 Now,In next page look for External endpoints and click on that.
+*31 It will open in browser,and it will show the message 'Whitelabel Error Page'.
+    Url will be like this:- http://35.202.235.196/
+*32 Now,provide the proper mapping address for access our app.
+    E.g:- http://35.202.235.196/api/details
+
+  For Reference followed the below link from Play Java channel:-
+
+  https://www.youtube.com/watch?v=SzbeDqBSRkc&t=716s
+
+
+
+
+
+
+
+
